@@ -50,27 +50,6 @@ public class IntentUtil {
         activity.startActivityForResult(intent, requestCode);//or TAKE_SMALL_PICTURE
     }
 
-
-//    if (data != null) {
-//        Uri imageUri;
-//        if (data.getData() != null) {
-//            imageUri = data.getData();
-//        } else {
-//            imageUri = photoUri;
-//        }
-//        LogUtils.i("Uri:" + imageUri.toString());
-//
-//        String absImgPath;//绝对路径
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {//4.4及以上
-//            absImgPath = getImgPath(data, imageUri);
-//            cropImg(Uri.parse("file://" + absImgPath), photoUri);
-//        } else {//4.4以下
-//            absImgPath = photoUri.getEncodedPath();
-//            cropImg(imageUri, photoUri);
-//        }
-//        LogUtils.i("Final path:" + absImgPath);
-//    }
-
     /**
      * 从本地获得图片,图片选完后会回调onActivityResult方法来接收结果。结果在方法参数中的intent中，使用
      * intent.getData()获取图片的路径。并且路径在4.4以下和4.4以下路径不同，需要分开处理。
