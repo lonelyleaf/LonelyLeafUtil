@@ -52,6 +52,7 @@ public class IntentUtil {
 
     /**
      * 从本地获得图片,图片选完后会回调onActivityResult方法来接收结果。结果在方法参数中的intent中，使用
+     *
      * intent.getData()获取图片的路径。并且路径在4.4以下和4.4以下路径不同，需要分开处理。
      *
      * @param activity    调用的activity
