@@ -1,4 +1,4 @@
-package lonelyleaf.mylib;
+package rock.util;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package lonelyleaf.mylib;
+package rock.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -21,7 +21,6 @@ import java.io.FileOutputStream;
  */
 public class ImageUtil {
 
-
     /**
      * 4.4及以上使用，获取content://类型图片的绝对路径
      *
@@ -33,35 +32,54 @@ public class ImageUtil {
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public static String getImgAbsolutePath(Activity activity, Intent data, Uri imageUri) {
         String imgPath = null;
+        //TODO 需要测试
+        if ("file".equals(imageUri.getScheme()) || imageUri.getScheme() == null) {
+            return imageUri.getEncodedPath();
+        }
+
         if (!DocumentsContract.isDocumentUri(activity, imageUri)) {//不是系统图库
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+            Cursor cursor = null;
+            try {
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-            Cursor cursor = activity.getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
+                cursor = activity.getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                cursor.moveToFirst();
 
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            imgPath = cursor.getString(columnIndex);
-            cursor.close();
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                imgPath = cursor.getString(columnIndex);
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+
         } else {//系统图库
             String wholeID = DocumentsContract.getDocumentId(imageUri);
             if (!TextUtils.isEmpty(wholeID) && wholeID.contains(":")) {
-                // 获得资源唯一ID
-                String id = wholeID.split(":")[1];
-                // 定义索引字段
-                String[] column = {MediaStore.Images.Media.DATA};
-                String sel = MediaStore.Images.Media._ID + "=?";
+                Cursor cursor = null;
+                try {
+                    // 获得资源唯一ID
+                    String id = wholeID.split(":")[1];
+                    // 定义索引字段
+                    String[] column = {MediaStore.Images.Media.DATA};
+                    String sel = MediaStore.Images.Media._ID + "=?";
 
-                Cursor cursor = activity.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, column, sel, new String[]{id}, null);
-                int columnIndex = cursor.getColumnIndex(column[0]);
+                    cursor = activity.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, column, sel, new String[]{id}, null);
+                    int columnIndex = cursor.getColumnIndex(column[0]);
 
-                if (cursor.moveToFirst()) {
-                    // DATA字段就是本地资源的全路径
-                    imgPath = cursor.getString(columnIndex);
+                    if (cursor.moveToFirst()) {
+                        // DATA字段就是本地资源的全路径
+                        imgPath = cursor.getString(columnIndex);
+                    }
+                } finally {
+                    if (cursor != null) {
+                        cursor.close();
+                    }
                 }
                 // 切记要关闭游标
-                cursor.close();
+
             }
         }
         return imgPath;

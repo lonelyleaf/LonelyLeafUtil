@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package lonelyleaf.mylib.view;
+package rock.util.view;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
@@ -31,16 +31,15 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import lonelyleaf.mylib.R;
-
+import rock.logutil.R;
 
 public class ExpandableLayout extends LinearLayout {
-    private int     mWidthMeasureSpec;
-    private int     mHeightMeasureSpec;
+    private int mWidthMeasureSpec;
+    private int mHeightMeasureSpec;
     private boolean mAttachedToWindow;
     private boolean mFirstLayout = true;
-    private boolean          mInLayout;
-    private ObjectAnimator   mExpandAnimator;
+    private boolean mInLayout;
+    private ObjectAnimator mExpandAnimator;
     private OnExpandListener mListener;
 
     public ExpandableLayout(Context context) {
@@ -355,10 +354,7 @@ public class ExpandableLayout extends LinearLayout {
     public boolean isRunningAnimation() {
         View child = findExpandableView();
         LayoutParams p = (LayoutParams) child.getLayoutParams();
-        if (p.isExpanding == true) {
-            return true;
-        }
-        return false;
+        return p.isExpanding == true;
     }
 
     private void dispatchOffset(View child) {
@@ -511,10 +507,10 @@ public class ExpandableLayout extends LinearLayout {
         }
     }
 
-    public static interface OnExpandListener {
-        public void onToggle(ExpandableLayout view, View child, boolean isExpanded);
+    public interface OnExpandListener {
+        void onToggle(ExpandableLayout view, View child, boolean isExpanded);
 
-        public void onExpandOffset(ExpandableLayout view, View child,
-                                   float offset, boolean isExpanding);
+        void onExpandOffset(ExpandableLayout view, View child,
+                            float offset, boolean isExpanding);
     }
 }

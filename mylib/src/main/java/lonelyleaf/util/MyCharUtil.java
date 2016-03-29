@@ -1,4 +1,4 @@
-package lonelyleaf.mylib;
+package rock.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

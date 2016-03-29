@@ -1,4 +1,4 @@
-package lonelyleaf.mylib;
+package rock.util;
 
 import android.app.Activity;
 
@@ -25,6 +25,17 @@ public class ExitAppHelper {
                 }
             }
         return instance;
+    }
+
+    /**
+     * 关闭除此以外的所有activity
+     */
+    public void closeOthers(Activity activity) {
+        for (Activity a : activities) {
+            if (a != null)
+                a.finish();
+        }
+        activities.add(activity);
     }
 
     /**

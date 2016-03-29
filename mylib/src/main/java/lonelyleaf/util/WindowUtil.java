@@ -1,4 +1,4 @@
-package lonelyleaf.mylib;
+package rock.util;
 
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
